@@ -16,5 +16,3 @@ def insertion_sort(a: list[int]) -> None:
 
         if last_index != i:
             insert(last_index + 1, current_item)
-
-    return None

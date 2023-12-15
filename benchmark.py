@@ -4,12 +4,13 @@ from files import TIMES_FILE
 import time
 import sorts
 import sys
-
-sys.setrecursionlimit(1_000_000)
+from tqdm import tqdm
 
 
 def run_bench():
 
+    # it reaches the recursion limit, so I increase it
+    sys.setrecursionlimit(1_000_000)
     bench_data = load_data()
 
     sort_algorithms = {
@@ -24,13 +25,21 @@ def run_bench():
 
     }
 
-    times: dict[str, float] = {}
-    for i, data in enumerate(bench_data):
-        print(f'running: {i+1}-{len(bench_data)}, data size: {len(data)}')
+    times = []
+    for data in tqdm(bench_data):
         for name, algorithm in sort_algorithms.items():
+            copy_data = data.copy()
+            sorted_array = copy_data.copy()
+            sorted_array.sort()
+            assert sorted_array != copy_data
             start = time.time()
-            algorithm(data)
+            algorithm(copy_data)
             stop = time.time()
-            times[name] = stop - start
+            dt = stop - start
+            times.append((name, len(data), dt))
 
     save_json(TIMES_FILE, times)
+
+
+if __name__ == "__main__":
+    run_bench()
