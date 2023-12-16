@@ -38,7 +38,7 @@ def plot_benchmark():
 
     for i, fig_name in zip([1, 0], ['fast_algorithms.svg', 'slow_algorithms.svg']):
         fig =pyplot.figure(i)
-        fig.set_size_inches(32, 18)
+        #fig.set_size_inches(32, 18)
         pyplot.title('Sorting array')
         legend = pyplot.legend()
         legend.axes.xaxis.label.set_text('Input size')
